@@ -1,38 +1,49 @@
-let xspacing = 16; // x间隔
-let w;             // 宽度
-let theta = 0.0;   // 初始角度
-let amplitude = 75.0; // 振幅
-let period = 500.0; // 周期
-let dx;            // 增量
-let yvalues;       // y数组
+const canvas = document.getElementById('background-canvas');
+const ctx = canvas.getContext('2d');
 
-function setup() {
-    createCanvas(windowWidth, windowHeight);
-    w = width + 16;
-    dx = (TWO_PI / period) * xspacing;
-    yvalues = new Array(floor(w / xspacing));
-}
+let width, height;
+let xspacing = 8;       // 缩小间距，点更密集
+let amplitude = 50;     // 振幅可适当调节
+let period = 400;
+let dx;
+let yvalues;
+let theta = 0;
 
-function draw() {
-    background(30, 30, 50); // 深色背景
-    calcWave();
-    renderWave();
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    dx = (2 * Math.PI / period) * xspacing;
+    yvalues = new Array(Math.floor(width / xspacing));
 }
+window.addEventListener('resize', resize);
+resize();
 
 function calcWave() {
-    theta += 0.02;
-
+    theta += 0.03;  // 动画速度微调
     let x = theta;
     for (let i = 0; i < yvalues.length; i++) {
-        yvalues[i] = sin(x) * amplitude;
+        yvalues[i] = Math.sin(x) * amplitude;
         x += dx;
     }
 }
 
 function renderWave() {
-    noStroke();
-    fill(0, 150, 255, 200);
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(0, 150, 255, 0.6)';
     for (let i = 0; i < yvalues.length; i++) {
-        ellipse(i * xspacing, height / 2 + yvalues[i], 16, 16);
+        ctx.beginPath();
+        // 小点更细，半径调小
+        ctx.arc(i * xspacing, height / 2 + yvalues[i], 4, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
+
+function animate() {
+    calcWave();
+    renderWave();
+    requestAnimationFrame(animate);
+}
+
+animate();
