@@ -1,70 +1,68 @@
+// 理工风渐变波浪 — 外部文件，更易维护
 document.addEventListener("DOMContentLoaded", () => {
-    const canvas = document.getElementById("background-canvas");
-    const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("background-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  let width = 0, height = 0, time = 0;
 
-    let width, height;
-    let xspacing = 6; // 更密集
-    let amplitude = 40;
-    let period = 300;
-    let dx;
-    let yvalues = [];
-    let theta = 0;
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener("resize", resize);
+  resize();
 
-    function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        dx = (2 * Math.PI / period) * xspacing;
-        yvalues = new Array(Math.floor(width / xspacing));
-    }
+  function waveY(x, t, speed=1.0) {
+    return Math.sin(x * 0.008 + t * 0.9 * speed) * 42
+         + Math.sin(x * 0.02 - t * 1.6 * speed) * 18;
+  }
 
-    window.addEventListener("resize", resize);
-    resize();
+  function render() {
+    time += 0.016;
+    // background gradient
+    const g = ctx.createLinearGradient(0, 0, 0, height);
+    g.addColorStop(0, "#07070a");
+    g.addColorStop(1, "#0f1120");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, width, height);
 
-    function calcWave() {
-        theta += 0.025;
-        let x = theta;
-        for (let i = 0; i < yvalues.length; i++) {
-            yvalues[i] = Math.sin(x) * amplitude + Math.sin(x * 1.5) * (amplitude * 0.3);
-            x += dx;
-        }
-    }
+    // multi-layer waves
+    const layers = [
+      {alpha:0.06, offset:0, speed:0.45, stroke: false},
+      {alpha:0.14, offset:40, speed:0.9, stroke: false},
+      {alpha:0.8, offset:0, speed:1.2, stroke:true}
+    ];
 
-    function renderWave() {
-        ctx.clearRect(0, 0, width, height);
-
-        // 背景渐变
-        const gradient = ctx.createLinearGradient(0, 0, 0, height);
-        gradient.addColorStop(0, "#0b0b15");
-        gradient.addColorStop(1, "#141428");
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-
-        // 波形
-        ctx.beginPath();
-        ctx.moveTo(0, height / 2 + yvalues[0]);
-        for (let i = 1; i < yvalues.length; i++) {
-            ctx.lineTo(i * xspacing, height / 2 + yvalues[i]);
-        }
-        ctx.strokeStyle = "rgba(0, 180, 255, 0.7)";
-        ctx.lineWidth = 2;
+    layers.forEach((L, idx) => {
+      ctx.beginPath();
+      const step = 6;
+      for (let x = 0; x <= width; x += step) {
+        const y = height * 0.52 + waveY(x + (idx*30), time, L.speed) + L.offset;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      if (L.stroke) {
+        ctx.strokeStyle = `rgba(0,190,255,${L.alpha})`;
+        ctx.lineWidth = 1.6;
         ctx.stroke();
+      } else {
+        // filled soft band
+        ctx.lineTo(width, height);
+        ctx.lineTo(0, height);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(0,120,160,${L.alpha})`;
+        ctx.fill();
+      }
+    });
 
-        // 发光粒子
-        ctx.fillStyle = "rgba(0, 180, 255, 0.9)";
-        for (let i = 0; i < yvalues.length; i += 8) {
-            ctx.beginPath();
-            ctx.arc(i * xspacing, height / 2 + yvalues[i], 1.5, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
+    requestAnimationFrame(render);
+  }
 
-    function animate() {
-        calcWave();
-        renderWave();
-        requestAnimationFrame(animate);
-    }
-
-    animate();
+  render();
 });
