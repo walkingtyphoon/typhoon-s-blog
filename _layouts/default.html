@@ -1,98 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>{{ page.title | default: site.title }}</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background: #0b0b15;
-            color: #eee;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        #background-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            z-index: -1;
-        }
-
-        main {
-            position: relative;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 10;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | default: '理性与美感共存的理工风博客' }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css?v=' | append: site.time | relative_url }}">
 </head>
 <body>
-<canvas id="background-canvas"></canvas>
-<main>
-    {{ content }}
-</main>
+  <canvas id="background-canvas" aria-hidden="true"></canvas>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const canvas = document.getElementById("background-canvas");
-        const ctx = canvas.getContext("2d");
-        let width, height;
-        let xspacing = 6, amplitude = 40, period = 300, dx, yvalues = [], theta = 0;
+  <div class="site-shell">
+    <header class="site-header" role="banner">
+      <div class="header-inner">
+        <div class="brand">
+          <a href="{{ '/' | relative_url }}" class="brand-link">
+            <span class="brand-title">{{ site.title | default: "行走的台风" }}</span>
+            <span class="brand-sub">理性、抽象、但不失温度</span>
+          </a>
+        </div>
+        <nav class="site-nav" role="navigation" aria-label="主导航">
+          <a href="{{ '/' | relative_url }}">首页</a>
+          <a href="{{ '/projects/' | relative_url }}">项目</a>
+          <a href="{{ '/notes/' | relative_url }}">笔记</a>
+          <a href="{{ '/about/' | relative_url }}">关于</a>
+        </nav>
+      </div>
+    </header>
 
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            dx = (2 * Math.PI / period) * xspacing;
-            yvalues = new Array(Math.floor(width / xspacing));
-        }
+    <main class="site-main" role="main">
+      <article class="page-content">
+        {{ content }}
+      </article>
+    </main>
 
-        window.addEventListener("resize", resize);
-        resize();
+    <footer class="site-footer" role="contentinfo">
+      <div>Made with ♥ · {{ "now" | date: "%Y" }} · <a href="https://github.com/{{ site.github_repo }}" target="_blank" rel="noopener">Source</a></div>
+    </footer>
+  </div>
 
-        function calcWave() {
-            theta += 0.025;
-            let x = theta;
-            for (let i = 0; i < yvalues.length; i++) {
-                yvalues[i] = Math.sin(x) * amplitude + Math.sin(x * 1.5) * (amplitude * 0.3);
-                x += dx;
-            }
-        }
-
-        function renderWave() {
-            ctx.clearRect(0, 0, width, height);
-            const gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, "#0b0b15");
-            gradient.addColorStop(1, "#141428");
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-            ctx.beginPath();
-            ctx.moveTo(0, height / 2 + yvalues[0]);
-            for (let i = 1; i < yvalues.length; i++) {
-                ctx.lineTo(i * xspacing, height / 2 + yvalues[i]);
-            }
-            ctx.strokeStyle = "rgba(0, 180, 255, 0.7)";
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
-
-        function animate() {
-            calcWave();
-            renderWave();
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    });
-</script>
+  <script src="{{ '/assets/js/background.js?v=' | append: site.time | relative_url }}" defer></script>
 </body>
 </html>
