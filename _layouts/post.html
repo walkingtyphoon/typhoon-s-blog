@@ -11,7 +11,17 @@ layout: default
     <section class="post-content">
         {{ content }}
     </section>
-
+    <script src="https://giscus.app/client.js"
+            data-repo="walkingtyphoon/walkingtyphoon.github.io"
+            data-repo-id="xxxx"
+            data-category="General"
+            data-category-id="xxxx"
+            data-mapping="pathname"
+            data-reactions-enabled="1"
+            data-theme="dark"
+            crossorigin="anonymous"
+            async>
+    </script>
     <footer class="post-footer">
         <a href="{{ '/' | relative_url }}" class="back-home">← 返回首页</a>
     </footer>
@@ -150,14 +160,3 @@ layout: default
     }
 </style>
 
-<script src="https://giscus.app/client.js"
-        data-repo="walkingtyphoon/walkingtyphoon.github.io"
-        data-repo-id="xxxx"
-        data-category="General"
-        data-category-id="xxxx"
-        data-mapping="pathname"
-        data-reactions-enabled="1"
-        data-theme="dark"
-        crossorigin="anonymous"
-        async>
-</script>
