@@ -40,10 +40,6 @@
         <article class="page-content">
             {{ content }}
         </article>
-    </main>
-
-    <footer class="site-footer" role="contentinfo">
-
         <div style="margin:60px auto; max-width:420px; text-align:center; padding:20px; background:rgba(0,0,0,0.35); border-radius:12px; backdrop-filter: blur(6px);">
             <h3 style="color:#fff; margin-bottom:16px;">📬 订阅最新更新</h3>
 
@@ -62,6 +58,9 @@
             <p style="margin-top:10px; font-size:0.85rem; color:#bbb;">新文章发布后将自动发送邮件</p>
         </div>
 
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
         <div>Made with ♥ · {{ "now" | date: "%Y" }} · <a href="https://github.com/{{ site.github_repo }}"
                                                          target="_blank" rel="noopener">Source</a></div>
     </footer>
