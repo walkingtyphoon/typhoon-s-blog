@@ -15,7 +15,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: "JetBrains Mono", "Fira Code", "Source Han Sans CN", "Noto Sans CJK SC", monospace;
+    font-family: "华文新魏","JetBrains Mono", "Fira Code", "Source Han Sans CN", "Noto Sans CJK SC", monospace;
     background: var(--bg-0);
     color: var(--text);
     -webkit-font-smoothing: antialiased
