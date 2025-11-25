@@ -1,0 +1,23 @@
+---
+layout: default
+---
+
+<h1>分类：{{ page.category }}</h1>
+
+{% assign posts = site.categories[page.category] | sort: 'date' | reverse %}
+{% if posts and posts.size > 0 %}
+<ul class="category-list">
+  {% for post in posts %}
+  <li class="category-item" style="margin-bottom:16px;">
+    <a class="category-link" href="{{ post.url | relative_url }}" style="font-size:1.1rem;">
+      {{ post.title }}
+    </a>
+    <div style="color:#9aa3b2;font-size:0.9rem;">{{ post.date | date: "%Y-%m-%d" }}</div>
+    <p style="margin:.4rem 0 0;">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>当前分类下暂无文章。</p>
+{% endif %}
+
