@@ -15,7 +15,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: "华文新魏","JetBrains Mono", "Fira Code", "Source Han Sans CN", "Noto Sans CJK SC", monospace;
+     font-family: sans-serif;
+    
     background: var(--bg-0);
     color: var(--text);
     -webkit-font-smoothing: antialiased
@@ -174,11 +175,9 @@ blockquote {
     height: 100vh;
     text-align: center;
     z-index: 10;
-}
-
-@font-face {
+}/*@font-face {
   font-family: "华文新魏";
   src: url("/assets/华文新魏.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+*/}
