@@ -1,4 +1,3 @@
-// 理工风渐变波浪 — 外部文件，更易维护
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("background-canvas");
     if (!canvas) return;
