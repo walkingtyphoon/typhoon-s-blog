@@ -8,7 +8,7 @@ title: "太平山修真我"
 <script src="{{ '/assets/js/background.js' | relative_url }}"></script>
 
 <div style="position:relative;z-index:1;text-align:center;margin-top:40vh;">
-  <h1>太平山修真我</h1>
+  <h1>title</h1>
   <p>欢迎来到我的个人博客</p>
 </div>
 
@@ -30,7 +30,7 @@ title: "太平山修真我"
 <div style="margin:60px auto; max-width:420px; text-align:center; padding:20px; background:rgba(0,0,0,0.35); border-radius:12px; backdrop-filter: blur(6px);">
   <h3 style="color:#fff; margin-bottom:16px;">📬 订阅最新更新</h3>
 
-  <form action="https://api.follow.it/subscription-form/bmxSTXZUMzFDWHJQeE84V0dOWk5TUWs4VUd0MHJKckQ1NHR6V0IxQWpYbTVLTWFBNWFJV1ArKzZwWmEvT2ZlbTJadHJzaXFIZWM2VXBpQ3lBVmZSNTBWU1hkdlI3L0crclBuTjNwaXR1ZUVqYXB1Q1kvQnZPSXBhWTY1Ry9KYzZ8MlladVJRQS84MVlRY01ndDZqd21LSmwrREhveDJRZjhUR1ByWmFHd0lVVT0=/8" method="post" target="_blank" style="display:flex; flex-direction:column; gap:12px;">
+  <form action="rss address" method="post" target="_blank" style="display:flex; flex-direction:column; gap:12px;">
 
     <input type="email" name="email" required placeholder="输入邮箱订阅更新…" 
            style="padding:12px 14px; border-radius:8px; background:#111; border:1px solid #555; color:#eee; font-size:1rem;">
